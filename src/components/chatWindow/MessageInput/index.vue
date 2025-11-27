@@ -6,6 +6,7 @@ const inputText = ref("");
 const { sendMessage, isLoading } = useChatStore();
 
 const handleSend = async () => {
+  if (isLoading.value || !inputText.value.trim()) return;
   await sendMessage(inputText.value);
   inputText.value = "";
 };
