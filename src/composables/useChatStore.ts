@@ -57,17 +57,67 @@ export function useChatStore() {
     // Remove loading message
     messages.value = messages.value.filter((m) => !m.loading);
 
-    // Add bot reward card response
-    messages.value.push({
-      id: messageId++,
-      type: "B",
-      content: {
-        title: "Birthday Special",
-        points: "500 Points",
-        image: "https://picsum.photos/300/150",
-      } as RewardCardContent,
-      sender: "bot",
-    });
+    // Randomly choose between text response or reward card
+    const responseType = Math.random() > 0.5 ? "text" : "reward";
+
+    if (responseType === "text") {
+      // Random text responses
+      const textResponses = [
+        "Great question! Let me help you with that.",
+        "I've checked your account. Everything looks good!",
+        "Your current points balance is looking great!",
+        "That's an excellent choice! Here's what I found.",
+        "I can definitely help you with that request.",
+        "Thanks for asking! Here's what you need to know.",
+      ];
+      const randomText =
+        textResponses[Math.floor(Math.random() * textResponses.length)];
+
+      messages.value.push({
+        id: messageId++,
+        type: "A",
+        content: { text: randomText } as TextContent,
+        sender: "bot",
+      });
+    } else {
+      // Random reward cards
+      const rewards = [
+        {
+          title: "Birthday Special",
+          points: "500 Points",
+          image: "https://picsum.photos/300/150?random=1",
+        },
+        {
+          title: "Welcome Bonus",
+          points: "1000 Points",
+          image: "https://picsum.photos/300/150?random=2",
+        },
+        {
+          title: "Loyalty Reward",
+          points: "750 Points",
+          image: "https://picsum.photos/300/150?random=3",
+        },
+        {
+          title: "Special Offer",
+          points: "300 Points",
+          image: "https://picsum.photos/300/150?random=4",
+        },
+        {
+          title: "Premium Deal",
+          points: "1500 Points",
+          image: "https://picsum.photos/300/150?random=5",
+        },
+      ];
+      const randomReward = rewards[Math.floor(Math.random() * rewards.length)];
+
+      messages.value.push({
+        id: messageId++,
+        type: "B",
+        content: randomReward as RewardCardContent,
+        sender: "bot",
+      });
+    }
+
     console.log("Messages after bot response:", messages.value);
     isLoading.value = false;
   };
