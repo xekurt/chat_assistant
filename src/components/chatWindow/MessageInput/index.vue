@@ -7,8 +7,9 @@ const { sendMessage, isLoading } = useChatStore();
 
 const handleSend = async () => {
   if (isLoading.value || !inputText.value.trim()) return;
-  await sendMessage(inputText.value);
+  const message = inputText.value;
   inputText.value = "";
+  await sendMessage(message);
 };
 </script>
 
