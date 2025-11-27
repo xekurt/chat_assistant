@@ -64,7 +64,7 @@ export function useChatStore() {
       content: {
         title: "Birthday Special",
         points: "500 Points",
-        image: "https://via.placeholder.com/150",
+        image: "https://picsum.photos/300/150",
       } as RewardCardContent,
       sender: "bot",
     });

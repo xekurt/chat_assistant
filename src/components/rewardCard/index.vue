@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import type { Message, RewardCardContent } from "../../types";
 
 interface Props {
@@ -9,15 +9,25 @@ interface Props {
 const props = defineProps<Props>();
 
 const cardContent = computed(() => props.message.content as RewardCardContent);
+const imageError = ref(false);
+
+const handleImageError = () => {
+  imageError.value = true;
+};
 </script>
 
 <template>
   <div class="reward-card">
     <img
+      v-if="!imageError"
       :src="cardContent.image"
       :alt="cardContent.title"
       class="reward-image"
+      @error="handleImageError"
     />
+    <div v-else class="reward-image reward-placeholder">
+      <span>🎁</span>
+    </div>
     <div class="reward-info">
       <h3>{{ cardContent.title }}</h3>
       <p class="points">{{ cardContent.points }}</p>
@@ -28,7 +38,8 @@ const cardContent = computed(() => props.message.content as RewardCardContent);
 
 <style scoped>
 .reward-card {
-  max-width: 300px;
+  width: 300px;
+  min-width: 300px;
   background: white;
   border: 2px solid #667eea;
   border-radius: 12px;
@@ -47,6 +58,14 @@ const cardContent = computed(() => props.message.content as RewardCardContent);
   height: 150px;
   object-fit: cover;
   display: block;
+}
+
+.reward-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-size: 48px;
 }
 
 .reward-info {
