@@ -50,7 +50,7 @@ export function useChatStore() {
       sender: "bot",
       loading: true,
     });
-    console.info(messages.value);
+
     // Simulate API delay
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
